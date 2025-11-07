@@ -4,13 +4,35 @@ type Priority = "Urgente" | "Moyenne" | "Basse"
 
 type Todo = {
   id: number;
-  title: string;
+  text: string;
   priority: Priority
 }
 
 function App() {
   const [input, setInput] = useState<string>("")
   const [priority, setPriority] = useState<Priority>("Moyenne")
+
+  const savedTodos = localStorage.getItem("todos")
+  const initialTodos = savedTodos ? JSON.parse(savedTodos) : []
+  const [todos, setTodos] = useState<Todo[]>(initialTodos)
+
+  function addTodo() {
+    if (input.trim() == "") {
+      return;
+    }
+
+    const newTodo: Todo = {
+      id: Date.now(),
+      text: input.trim(),
+      priority: priority
+    }
+
+    const newTodos = [newTodo, ...todos]
+    setTodos(newTodos)
+    setInput("")
+    setPriority("Moyenne")
+    console.table("todos : " + toString(newTodos))
+  }
 
   return (
     <div className=" flex justify-center">
@@ -32,7 +54,12 @@ function App() {
             <option value="Moyenne">Moyenne</option>
             <option value="Basse">Basse</option>
           </select>
-          <button className="btn btn-primary">Ajouter</button>
+          <button 
+          className="btn btn-primary"
+          onClick={addTodo}
+          >
+            Ajouter
+            </button>
         </div>
       </div>
     </div>
