@@ -1,3 +1,5 @@
+import { Trash } from "lucide-react";
+
 type Priority = "Urgente" | "Moyenne" | "Basse"
 
 type Todo = {
@@ -12,8 +14,29 @@ type Props = {
 
 const TodoItem = ({ todo }: Props) => {
     return (
-        <li>
-            {todo.text}
+        <li className="p-3">
+            <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                <input 
+                    type="checkbox" 
+                    className="checkbox checkbox-primary checkbox-sm" 
+                />
+                <span className="text-sm font-bold">
+                    <span>
+                        {todo.text}
+                    </span>
+                    <span
+                        className={`badge bagde-sm badge-soft
+                            ${todo.priority == "Urgente" 
+                                ? "badge-error" : todo.priority == "Moyenne" 
+                                ? "badge-warning" : "badge-success"}`}
+                    >
+                        {todo.priority}
+                    </span>
+                </span>
+                </div>
+                
+            </div>
         </li>
     )
 }
